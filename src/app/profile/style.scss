@@ -1,0 +1,50 @@
+main {
+  height: 100vh;
+  width: 100vw;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 4px;
+
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  margin-top: 20px;
+
+  .profile-container--content, .profile-container--achievements {
+    padding: 40px;
+    border: 1px solid var(--clr-border);
+  }
+
+  .profile-container--content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .profile-container--achievements {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  img {
+    border-radius: 100px;
+  }
+
+  h1 {
+    font-weight: 1000;
+    font-size: 25px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
