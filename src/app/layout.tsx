@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SessionWrapper from "@/components/providers/session-wrapper";
+import {Toaster} from "@/components/ui/toaster";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Cairos — Додаток для саморозвитку",
@@ -15,7 +17,12 @@ export default function RootLayout({
   return (
       <SessionWrapper>
         <html lang="en">
-            <body>{children}</body>
+            <body>
+            <main>
+                {children}
+                <Toaster />
+            </main>
+            </body>
         </html>
       </SessionWrapper>
   );
