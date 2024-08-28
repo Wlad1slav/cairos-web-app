@@ -1,20 +1,24 @@
 'use client'
 
-import React from "react";
-import {useSession} from "next-auth/react";
+import React, {createContext} from "react";
 import {redirect} from "next/navigation";
-import {Session} from "next-auth";
+import {AuthProviderProps} from "@/lib/types";
 
-function AuthProvider({children, session}: {children: React.ReactNode, session: Session | null}) {
+export const AuthContext = createContext<AuthProviderProps>({
+    profile: null,
+    session: null,
+})
+
+function AuthProvider({children, session, profile}: AuthProviderProps & {children: React.ReactNode}) {
 
     if (!session) {
         redirect('/login');
     }
 
     return (
-        <>
+        <AuthContext.Provider value={{ profile, session }}>
             {children}
-        </>
+        </AuthContext.Provider>
     )
 
 }
