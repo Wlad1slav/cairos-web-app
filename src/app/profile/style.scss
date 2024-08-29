@@ -15,7 +15,7 @@ main {
   margin-top: 20px;
 
   .profile-container--content, .profile-container--achievements {
-    padding: 40px;
+    padding: 20px;
     border: 1px solid var(--clr-border);
   }
 
@@ -46,5 +46,9 @@ main {
     display: flex;
     flex-direction: column;
     gap: 5px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding-inline: 25px;
   }
 }
