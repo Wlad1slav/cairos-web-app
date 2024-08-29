@@ -14,5 +14,16 @@ export type AuthProviderProps = {
 
 export type SetBirthdateProps = {
     stateToStore: Dispatch<SetStateAction<Date | undefined>>;
-    currentDate: Date;
+    currentBirthday?: Date;
+};
+
+export type SearchSelectProps = {
+    placeholder: string;
+    searchPlaceholder: string;
+    notFoundError: string;
+    options: {
+        label: string;
+        value?: string;
+    }[];
+    onSelect: (value: string) => void;
 };
