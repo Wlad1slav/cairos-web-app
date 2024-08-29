@@ -11,7 +11,7 @@ export const AuthContext = createContext<AuthProviderProps>({
 
 function AuthProvider({children, session, profile}: AuthProviderProps & {children: React.ReactNode}) {
 
-    if (!session) {
+    if (session === null) {
         redirect('/login');
     }
 

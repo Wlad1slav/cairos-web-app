@@ -1,10 +1,11 @@
 'use client'
 
-import {Button} from "@/components/ui/button";
 import Image from "next/image";
 import './style.scss';
-import {signIn, useSession} from "next-auth/react";
+import {useSession} from "next-auth/react";
 import {redirect} from "next/navigation";
+import SignInGoogle from "@/components/buttons/signInGoogle";
+import {Loader2} from "lucide-react";
 
 function LoginPage() {
     const {data: session} = useSession();
@@ -22,25 +23,22 @@ function LoginPage() {
                 height={200}
                 className="logo"
             />
-            <div className="login-container">
-                <h1>Авторизація</h1>
-                <div className="login-container--greeting">
-                    <p>Вітаємо тебе, Великий лицаре правди</p>
-                    <Button variant="outline" onClick={() => signIn('google')}>
-                        <div className="inside-button">
-                            <Image
-                                src="/assets/images/Google__G__logo.svg.webp"
-                                alt="google logo"
-                                width={24}
-                                height={24}
-                            />
-                            <p>Увійти з Google</p>
-                        </div>
-                    </Button>
+
+            { session === undefined ? (
+                <div className="flex items-center justify-center min-h-screen">
+                    <Loader2 className="h-48 w-48 animate-spin"/>
                 </div>
-            </div>
+            ) : (
+                <div className="login-container">
+                    <h1>Авторизація</h1>
+                    <div className="login-container--greeting">
+                        <p>Вітаємо тебе, Великий лицаре правди</p>
+                        <SignInGoogle/>
+                    </div>
+                </div>
+            )}
         </main>
-    )
+    );
 }
 
 export default LoginPage;
