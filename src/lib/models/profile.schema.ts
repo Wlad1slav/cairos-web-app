@@ -8,9 +8,10 @@ const ProfileSchema = new mongoose.Schema(
             unique: true
         },
         birthdate: {
-            type: Date,
-            required: false,
+            type: Date
         },
+        happiness: [{ level: Number, date: Date }],
+        recentActions: [{ action: String, date: Date }],
     },
     {
         timestamps: true
@@ -20,6 +21,8 @@ const ProfileSchema = new mongoose.Schema(
 export type TProfile = {
     email: string;
     birthdate: string;
+    happiness: { level: number; date: string; }[];
+    recentActions: { action: string; date: string; }[];
 };
 
 export const Profile = mongoose.models.Profile || mongoose.model<TProfile>('Profile', ProfileSchema);

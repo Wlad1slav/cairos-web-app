@@ -11,6 +11,7 @@ import SetBirthdate from "@/components/buttons/setBirthdate";
 import SetHappiness from "@/components/questionnaire/set-happiness";
 import {Button} from "@/components/ui/button";
 import SelectLastActivities from "@/components/questionnaire/select-last-activities";
+import axios from "axios";
 
 function QuestionnairePage() {
     const {session, profile} = useAuth();
@@ -33,6 +34,10 @@ function QuestionnairePage() {
     const handleRecentActivityChange = useCallback((value: string) => {
         setRecentActivity(value);
     }, []);
+
+    const handleStoreMood = () => {
+        axios.post('/api/v1/questionnaire/mood', {happinessValue, recentActivity});
+    }
 
     const dayWeek = new Date().getDay();
     const cairosDay = cairosDays[dayWeek];
@@ -86,7 +91,7 @@ function QuestionnairePage() {
                     <Button variant="outline">
                         Пропустити
                     </Button>
-                    <Button disabled={!happinessValue || !recentActivity}>
+                    <Button disabled={!happinessValue || !recentActivity} onClick={handleStoreMood}>
                         Продовжити
                     </Button>
                 </div>
