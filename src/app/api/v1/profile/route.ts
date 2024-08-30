@@ -2,7 +2,7 @@ import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { noSessionError } from "@/lib/constants";
-import { Profile, ProfileModel } from "@/lib/models";
+import {Profile} from "@/lib/models";
 
 /**
  * # Handles GET requests.
@@ -12,11 +12,11 @@ import { Profile, ProfileModel } from "@/lib/models";
  */
 export async function GET() {
     const session = await getServerSession(authOptions);
-    const profile = await Profile.findOne({ email: session?.user?.email });
-
     if (!session) {
         return NextResponse.json(noSessionError); // Return an error if the session is not found
     }
+
+    const profile = await Profile.findOne({ email: session.user?.email });
 
     return NextResponse.json({ session, profile });
 }
@@ -31,21 +31,18 @@ export async function POST() {
     // Fetch the session using NextAuth
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
-        return NextResponse.json(noSessionError); // Return an error if the session is not found or the user is not authenticated
+        return NextResponse.json(noSessionError, {status: 401}); // Return an error if the session is not found or the user is not authenticated
     }
 
     // Create user profile
     try {
-        const profile = await Profile.findOne({ email: session.user.email });
-        if (!profile) {
-            // Create a new profile if it doesn't exist
-            const profile = await Profile.insertOne({
-                email: session.user.email
-            } as ProfileModel);
-
-            return NextResponse.json({ session, profile }); // Return the session and newly created profile data as JSON
+        const existingProfile = await Profile.findOne({ email: session.user.email });
+        if (existingProfile) {
+            return NextResponse.json({ session, profile: existingProfile }); // Return the session & EXISTING profile data
         }
-        return NextResponse.json({ session, profile }); // Return the session and existing profile data as JSON
+
+        const profile = new Profile({email: session.user.email});
+        return NextResponse.json({ session, profile: profile.save() }); // Return the session & CREATED profile data
     } catch (e) {
         console.error(e);
     }

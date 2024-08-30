@@ -86,7 +86,7 @@ function ProfilePage() {
                         <FillDailyQuestionnaire/>
                         {session === undefined || !profile
                             ? ( <Skeleton className="w-full h-10" /> )
-                            : ( <SetBirthdate stateToStore={setBirthdate} currentBirthday={new Date(profile?.birthdate ?? '')}/> )
+                            : ( <SetBirthdate stateToStore={setBirthdate} currentBirthday={new Date(profile.birthdate ?? '01.01.2000')}/> )
                         }
                         <CairosTelegram/>
                         <SignOut/>
