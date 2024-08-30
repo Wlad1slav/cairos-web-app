@@ -1,6 +1,7 @@
 import React, {Dispatch, SetStateAction} from "react";
-import {ProfileModel} from "@/lib/models";
+import {TProfile} from "@/lib/models";
 import {Session} from "next-auth";
+import QuestionnaireNavButtons from "@/components/questionnaire/questionnaire-nav-buttons";
 
 export type AchievementBoxProps = {
     icon: React.ReactNode;
@@ -8,7 +9,7 @@ export type AchievementBoxProps = {
 };
 
 export type AuthProviderProps = {
-    profile: ProfileModel | null;
+    profile: TProfile | null;
     session: Session | null;
 };
 
@@ -26,4 +27,14 @@ export type SearchSelectProps = {
         value?: string;
     }[];
     onSelect: (value: string) => void;
+};
+
+export type QuestionnaireNavButtonsProps = {
+    continueDisabled: boolean;
+    submitting: boolean;
+    onContinue?: () => void;
+    nextUrl: string;
+    backUrl: string;
+    enableNext?: boolean;
+    end?: boolean;
 };

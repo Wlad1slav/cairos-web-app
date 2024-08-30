@@ -9,16 +9,22 @@ import {Calendar} from "lucide-react";
 import {useCallback, useEffect, useState} from "react";
 import SetBirthdate from "@/components/buttons/setBirthdate";
 import SetHappiness from "@/components/questionnaire/set-happiness";
-import {Button} from "@/components/ui/button";
 import SelectLastActivities from "@/components/questionnaire/select-last-activities";
 import axios from "axios";
+import QuestionnaireNavButtons from "@/components/questionnaire/questionnaire-nav-buttons";
+import {useToast} from "@/components/ui/use-toast";
+import { useRouter } from 'next/navigation';
 
 function QuestionnairePage() {
     const {session, profile} = useAuth();
 
+    const { toast } = useToast();
+    const router = useRouter();
+
     const [birthdate, setBirthdate] = useState<Date | undefined>(undefined);
     const [happinessValue, setHappinessValue] = useState<number>();
     const [recentActivity, setRecentActivity] = useState<string>();
+    const [submitting, setSubmitting] = useState(false);
 
     // A random variant of the skin color of the emoji that greets the user
     const [skinTone] = useState<number>(Math.floor(Math.random() * (6 - 2 + 1)) + 2);
@@ -36,7 +42,19 @@ function QuestionnairePage() {
     }, []);
 
     const handleStoreMood = () => {
-        axios.post('/api/v1/questionnaire/mood', {happinessValue, recentActivity});
+        setSubmitting(true);
+        axios.post('/api/v1/questionnaire/mood', {happinessValue, recentActivity})
+            .then(() => router.push('/profile/questionnaire/checklist'))
+            .catch((e) => {
+                const error = e as Error;
+                console.log(error);
+                toast({
+                    variant: "destructive",
+                    title: "Помилка при збереженні.",
+                    description: error.message,
+                });
+                setSubmitting(false);
+            });
     }
 
     const dayWeek = new Date().getDay();
@@ -53,7 +71,6 @@ function QuestionnairePage() {
                     }
                         <p className={`emoji--skin-tone-${skinTone}`}>&#128587;</p>
                     </span>
-
                 </h1>
 
                 <p className="questionnaire-container--today">Сьогодні <b>{cairosDay.weekDayLocalKey},</b> {cairosDay.dayNumber}й
@@ -84,17 +101,13 @@ function QuestionnairePage() {
 
                 <SelectLastActivities setState={handleRecentActivityChange} />
 
-                <div className="buttons mt-6">
-                    <Button variant="outline">
-                        Назад
-                    </Button>
-                    <Button variant="outline">
-                        Пропустити
-                    </Button>
-                    <Button disabled={!happinessValue || !recentActivity} onClick={handleStoreMood}>
-                        Продовжити
-                    </Button>
-                </div>
+                <QuestionnaireNavButtons
+                    continueDisabled={!happinessValue || !recentActivity}
+                    submitting={submitting}
+                    onContinue={handleStoreMood}
+                    backUrl="/profile"
+                    nextUrl="/profile/questionnaire/checklist"
+                />
             </div>
         </main>
     );
