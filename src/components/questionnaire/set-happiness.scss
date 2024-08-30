@@ -1,0 +1,10 @@
+.happiness-set {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  p {
+    text-align: center;
+    width: 100%;
+  }
+}
