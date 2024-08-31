@@ -12,6 +12,9 @@ import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import axios from "axios";
 import {toast} from "@/components/ui/use-toast";
+import QuestionnaireNavButtons from "@/components/questionnaire/questionnaire-nav-buttons";
+import {Button} from "@/components/ui/button";
+import {Loader2} from "lucide-react";
 
 const FormSchema = z.object({
     daily: z.array(z.string()),
@@ -19,13 +22,14 @@ const FormSchema = z.object({
 });
 
 function Tasks({submitButton, afterSubmit}: {
-    submitButton: React.ReactNode;
+    submitButton: 'questionnaire_navigation' | 'button';
     afterSubmit: () => void;
 }) {
 
     const { profile } = useAuth();
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const today = new Date().setHours(0, 0, 0, 0);
 
@@ -61,6 +65,7 @@ function Tasks({submitButton, afterSubmit}: {
     }, [defaultValues, isLoading, form]);
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
+        setIsSubmitting(true);
         axios
             .post("/api/v1/questionnaire/checklist", data)
             .then(() => afterSubmit())
@@ -71,6 +76,7 @@ function Tasks({submitButton, afterSubmit}: {
                     title: "Помилка при збереженні чек-лістів.",
                     description: error.message,
                 });
+                setIsSubmitting(false);
             });
     }
 
@@ -105,7 +111,20 @@ function Tasks({submitButton, afterSubmit}: {
                     />)}
                 </div>
 
-                {submitButton}
+                {submitButton === 'questionnaire_navigation' ? (
+                    <QuestionnaireNavButtons
+                        continueDisabled={false}
+                        submitting={isSubmitting}
+                        onContinue={() => {}}
+                        backUrl="/profile/questionnaire/mood"
+                        nextUrl="/profile/questionnaire/quote"
+                    />
+                ) : (
+                    <Button disabled={isSubmitting || isLoading}>
+                        {(isSubmitting || isLoading) && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
+                        Зберегти
+                    </Button>
+                )}
             </form>
         </Form>
     );

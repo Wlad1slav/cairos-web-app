@@ -27,12 +27,8 @@ export async function POST(request: Request) {
             { email: session.user.email },
             {
                 $set: {
-                    dailyChecks: {
-                        [today]: daily
-                    },
-                    cairosChecks: {
-                        [today]: cairos
-                    },
+                    [`dailyChecks.${today}`]: daily,
+                    [`cairosChecks.${today}`]: cairos,
                 }
             }
         );
