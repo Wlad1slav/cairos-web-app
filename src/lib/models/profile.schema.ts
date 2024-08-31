@@ -10,8 +10,14 @@ const ProfileSchema = new mongoose.Schema(
         birthdate: {
             type: Date
         },
-        happiness: [{ level: Number, date: Date }],
-        recentActions: [{ action: String, date: Date }],
+        happiness: {
+            type: Map,
+            of: String,
+        },
+        recentActions: {
+            type: Map,
+            of: String,
+        },
         dailyChecks: {
             type: Map,
             of: [String],

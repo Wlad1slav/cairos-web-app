@@ -15,32 +15,18 @@ export async function POST(request: Request) {
         return NextResponse.json(noSessionError, {status: 401}); // Return an error if the session is not found or the user is not authenticated
     }
 
-    const profileToFind = { email: session.user.email };
+    const today = new Date().setHours(0,0,0,0);
 
     try {
         const {happinessValue, recentActivity} = await request.json();
 
-        const profile = await Profile.findOne(profileToFind);
-
-        // Checking whether objects already exist for the corresponding arrays today.
-        // If they exist, they are not added to the array
-        const today = new Date().setHours(0,0,0,0);
-
-        const lastHappiness = profile.happiness?.slice(-1)[0];
-        const lastRecentAction = profile.recentActions?.slice(-1)[0];
-
-        const happiness = lastHappiness && new Date(lastHappiness.date).setHours(0, 0, 0, 0) === today
-            ? undefined
-            : { level: happinessValue, date: new Date() };
-
-        const recentActions = lastRecentAction && new Date(lastRecentAction.date).setHours(0, 0, 0, 0) === today
-            ? undefined
-            : { action: recentActivity, date: new Date() };
-
         await Profile.updateOne(
-            profileToFind,
+            { email: session.user.email },
             {
-                $push: { happiness, recentActions }
+                $set: {
+                    [`happiness.${today}`]: happinessValue,
+                    [`recentActions.${today}`]: recentActivity
+                }
             }
         );
 
