@@ -38,3 +38,9 @@ export type QuestionnaireNavButtonsProps = {
     enableNext?: boolean;
     end?: boolean;
 };
+
+export type ChecklistProps = {
+    items: { label: string, description: string }[];
+    name: string;
+    control: any;
+};
