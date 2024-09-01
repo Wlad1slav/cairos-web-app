@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import './style.scss';
-import {Calendar, MessageCircleQuestion, StarIcon, Trophy} from "lucide-react";
+import {BookmarkCheck, Calendar, MessageCircleQuestion, Trophy} from "lucide-react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import AchievementBox from "@/components/achievements/achievement-box";
 import SignOut from "@/components/buttons/signOut";
 import CairosTelegram from "@/components/buttons/cairosTelegram";
 import FillDailyQuestionnaire from "@/components/buttons/fillDailyQuestionnaire";
@@ -14,14 +13,32 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {useEffect, useState} from "react";
 import LeftUntilHundred from "@/components/widgets/leftUntilHundred";
 import {Skeleton} from "@/components/ui/skeleton";
+import Link from "next/link";
+import {Button} from "@/components/ui/button";
 
 function ProfilePage() {
-    const {session, profile} = useAuth();
 
+    const today = new Date().setHours(0, 0, 0, 0);
+
+    const {session, profile} = useAuth();
     const [birthdate, setBirthdate] = useState<Date | undefined>(undefined);
+    const [questionnaire, setQuestionnaire] = useState<{
+        mood: boolean;
+        checklist: boolean;
+    }>({
+        mood: false,
+        checklist: false
+    });
 
     useEffect(() => {
         setBirthdate(profile?.birthdate ? new Date(profile?.birthdate) : undefined);
+
+        if (profile && profile.questionnaire?.[today]) {
+            setQuestionnaire({
+                mood: profile?.questionnaire[today]?.mood ?? false,
+                checklist: profile?.questionnaire?.[today]?.checklist ?? false,
+            });
+        }
     }, [profile]);
 
     return (
@@ -56,11 +73,17 @@ function ProfilePage() {
                         {session === undefined || !profile
                             ? ( <Skeleton className="w-full h-24" /> )
                             : (
-                                <Alert className="w-full" variant="destructive">
-                                    <MessageCircleQuestion className="h-4 w-4"/>
+                                <Alert
+                                    className="w-full"
+                                    variant={questionnaire?.checklist && questionnaire?.mood ? "default" : 'destructive'}>
+                                    { questionnaire?.checklist && questionnaire?.mood ? (
+                                        <BookmarkCheck />
+                                    ) : (<MessageCircleQuestion className="h-4 w-4"/>)}
                                     <AlertTitle>Квестінарій</AlertTitle>
                                     <AlertDescription>
-                                        Квестінарій сьогодні не пройдений. Обов&apos;язково виправте це!
+                                        { !questionnaire?.checklist || !questionnaire?.mood ? (
+                                            questionnaire?.checklist || questionnaire?.mood ? 'Ви не закінчили Квестінарій за сьогодні. Обов\'язково виправте це!' : 'Квестінарій сьогодні не пройдений. Обов\'язково виправте це!'
+                                        ) : 'Квестінарій пройден. Ви молодці!' }
                                     </AlertDescription>
                                 </Alert>
                             )
@@ -83,24 +106,35 @@ function ProfilePage() {
 
                     </div>
                     <div className="buttons">
-                        <FillDailyQuestionnaire/>
                         {session === undefined || !profile
-                            ? ( <Skeleton className="w-full h-10" /> )
-                            : ( <SetBirthdate stateToStore={setBirthdate} currentBirthday={new Date(profile.birthdate ?? '01.01.2000')}/> )
+                            ? (
+                                Array.from({length: 4}).map((_, index) => (
+                                    <Skeleton key={index} className="w-full h-10" />
+                                ))
+                            )
+                            : (
+                                <>
+                                    {(questionnaire.checklist && questionnaire.mood) && (
+                                        <Link href="/profile/checklist" className="w-full">
+                                            <Button className="w-full font-bold">
+                                                Дозаповнити Чекліст
+                                            </Button>
+                                        </Link>
+                                    )}
+                                    {questionnaire && <FillDailyQuestionnaire completion={questionnaire}/>}
+                                    <SetBirthdate stateToStore={setBirthdate} currentBirthday={new Date(profile.birthdate ?? '01.01.2000')}/>
+                                    <CairosTelegram/>
+                                    <SignOut />
+                                </>
+                            )
                         }
-                        <CairosTelegram/>
-                        <SignOut/>
                     </div>
                 </TabsContent>
                 <TabsContent value="achievements">
-                    <div className="profile-container--achievements">
-                        <AchievementBox icon={<StarIcon size="50px"/>} condition={'Заповнити щоденну анкету'}/>
-                        <AchievementBox icon={<StarIcon size="50px"/>} condition={'Заповнити щоденну анкету'}/>
-                        <AchievementBox icon={<StarIcon size="50px"/>} condition={'Заповнити щоденну анкету'}/>
-                        <AchievementBox icon={<StarIcon size="50px"/>} condition={'Заповнити щоденну анкету'}/>
-                        <AchievementBox icon={<StarIcon size="50px"/>} condition={'Заповнити щоденну анкету'}/>
-                        <AchievementBox icon={<StarIcon size="50px"/>} condition={'Заповнити щоденну анкету'}/>
-                    </div>
+                    <h1 className="w-full text-center">Coming soon...</h1>
+                    {/*<div className="profile-container--achievements">*/}
+                    {/*    <AchievementBox icon={<StarIcon size="50px"/>} condition={'Заповнити щоденну анкету'}/>*/}
+                    {/*</div>*/}
                 </TabsContent>
             </Tabs>
         </main>

@@ -44,8 +44,8 @@ function Tasks({submitButton, afterSubmit}: {
     useEffect(() => {
         if (profile) {
             setDefaultValues({
-                daily: profile.dailyChecks[today],
-                cairos: profile.cairosChecks[today],
+                daily: profile.dailyChecks?.[today],
+                cairos: profile.cairosChecks?.[today],
             });
             setIsLoading(false);
         }
@@ -68,7 +68,10 @@ function Tasks({submitButton, afterSubmit}: {
         setIsSubmitting(true);
         axios
             .post("/api/v1/questionnaire/checklist", data)
-            .then(() => afterSubmit())
+            .then(() => {
+                afterSubmit();
+                setIsSubmitting(false);
+            })
             .catch((e) => {
                 const error = e as Error;
                 toast({

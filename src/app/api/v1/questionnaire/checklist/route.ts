@@ -29,6 +29,7 @@ export async function POST(request: Request) {
                 $set: {
                     [`dailyChecks.${today}`]: daily,
                     [`cairosChecks.${today}`]: cairos,
+                    [`questionnaire.${today}.checklist`]: true, // Note that today's stage has been completed
                 }
             }
         );

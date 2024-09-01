@@ -25,7 +25,8 @@ export async function POST(request: Request) {
             {
                 $set: {
                     [`happiness.${today}`]: happinessValue,
-                    [`recentActions.${today}`]: recentActivity
+                    [`recentActions.${today}`]: recentActivity,
+                    [`questionnaire.${today}.mood`]: true, // Note that today's stage has been completed
                 }
             }
         );

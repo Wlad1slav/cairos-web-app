@@ -25,7 +25,7 @@ function SetHappiness({setState}: {
     }, [value]);
 
     useEffect(() => {
-        if (profile && profile.happiness[today]) {
+        if (profile && profile.happiness?.[today]) {
             setValue(profile.happiness[today]);
         }
     }, [profile]);

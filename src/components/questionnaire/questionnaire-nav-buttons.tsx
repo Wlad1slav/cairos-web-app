@@ -16,7 +16,7 @@ function QuestionnaireNavButtons(
 
     return (
         <div className="buttons mt-6">
-            <Link href={backUrl}>
+            <Link href={backUrl} prefetch={false}>
                 <Button variant="outline">
                     Назад
                 </Button>
@@ -27,11 +27,11 @@ function QuestionnaireNavButtons(
                 </Button>
             </Link>)}
             {end ? (
-                <Link href={nextUrl}>
+                <a href={nextUrl}>
                     <Button>
                         Закінчити
                     </Button>
-                </Link>
+                </a>
             ) : (<Button
                 disabled={continueDisabled || submitting}
                 onClick={onContinue}

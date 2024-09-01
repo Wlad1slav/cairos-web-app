@@ -25,7 +25,14 @@ const ProfileSchema = new mongoose.Schema(
         cairosChecks: {
             type: Map,
             of: [String],
-        }
+        },
+        questionnaire: {
+            type: Map,
+            of: {
+                mood: Boolean,
+                checklist: Boolean,
+            },
+        },
     },
     {
         timestamps: true
@@ -39,6 +46,7 @@ export type TProfile = {
     recentActions: { [key: string]: string; };
     dailyChecks: { [key: string]: string[]; };
     cairosChecks: { [key: string]: string[]; };
+    questionnaire: { [key: string]: { mood: boolean; checklist: boolean; }; };
 };
 
 export const Profile = mongoose.models.Profile || mongoose.model<TProfile>('Profile', ProfileSchema);

@@ -27,7 +27,7 @@ function SelectLastActivities({setState} : {
     };
 
     useEffect(() => {
-        if (profile && profile.recentActions[today]) {
+        if (profile && profile.recentActions?.[today]) {
             setValue(profile.recentActions[today]);
             setState(profile.recentActions[today]);
         }
