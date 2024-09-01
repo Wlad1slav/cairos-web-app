@@ -12,7 +12,7 @@ const ProfileSchema = new mongoose.Schema(
         },
         happiness: {
             type: Map,
-            of: String,
+            of: Number,
         },
         recentActions: {
             type: Map,
@@ -35,10 +35,10 @@ const ProfileSchema = new mongoose.Schema(
 export type TProfile = {
     email: string;
     birthdate: string;
-    happiness: { level: number; date: string; }[];
-    recentActions: { action: string; date: string; }[];
-    dailyChecks: { [key: string]: string[] };
-    cairosChecks: { [key: string]: string[] };
+    happiness: { [key: string]: number; };
+    recentActions: { [key: string]: string; };
+    dailyChecks: { [key: string]: string[]; };
+    cairosChecks: { [key: string]: string[]; };
 };
 
 export const Profile = mongoose.models.Profile || mongoose.model<TProfile>('Profile', ProfileSchema);

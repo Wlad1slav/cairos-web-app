@@ -6,20 +6,32 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import {basicActivities} from "@/lib/constants/basicActivities";
-import {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
+import {useAuth} from "@/lib/hooks/useAuth";
+import {Skeleton} from "@/components/ui/skeleton";
 
 function SelectLastActivities({setState} : {
     setState: (value: string) => void;
 }) {
-    const [_, setValue] = useState<string>();
+    const today = new Date().setHours(0, 0, 0, 0);
+
+    const {profile} = useAuth();
+    const [value, setValue] = useState<string>();
     const [ownAnswer, setOwnAnswer] = useState<boolean>(false);
 
     const handleChange = (value: string) => {
         setValue(value);
         setState(value);
     };
+
+    useEffect(() => {
+        if (profile && profile.recentActions[today]) {
+            setValue(profile.recentActions[today]);
+            setState(profile.recentActions[today]);
+        }
+    }, [profile]);
 
     return (
         <div>
@@ -40,10 +52,12 @@ function SelectLastActivities({setState} : {
                 } else {
                     handleChange(value);
                 }
-            }}>
-                <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Обознач, чим займався останні 30 хвилин"/>
-                </SelectTrigger>
+            }} value={basicActivities.includes(value ?? '') ? value : undefined}>
+                {!profile ? (
+                    <Skeleton className="w-full h-10" />
+                ) : <SelectTrigger className="w-full">
+                    <SelectValue placeholder={value ?? "Обознач, чим займався останні 30 хвилин"}/>
+                </SelectTrigger>}
                 <SelectContent>
                     {basicActivities.map(activity => (
                         <SelectItem value={activity} key={activity}>{activity}</SelectItem>

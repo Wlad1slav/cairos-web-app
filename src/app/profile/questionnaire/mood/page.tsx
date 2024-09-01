@@ -30,8 +30,11 @@ function QuestionnairePage() {
     const [skinTone] = useState<number>(Math.floor(Math.random() * (6 - 2 + 1)) + 2);
 
     useEffect(() => {
-        setBirthdate(profile?.birthdate ? new Date(profile?.birthdate) : undefined);
+        if (profile) {
+            setBirthdate(profile.birthdate ? new Date(profile.birthdate) : undefined);
+        }
     }, [profile]);
+
 
     const handleHappinessChange = useCallback((value: number) => {
         setHappinessValue(value);
@@ -78,7 +81,7 @@ function QuestionnairePage() {
                 </p>
 
                 {session === undefined || !profile
-                    ? (<Skeleton className="w-full h-20"/>)
+                    ? (<Skeleton className="w-full" style={{height: "4.5rem"}}/>) /* Tailwind sucks. Why the hell is there no h-18? */
                     : birthdate ? (
                         <LeftUntilHundred birthdate={birthdate}/>
                     ) : (

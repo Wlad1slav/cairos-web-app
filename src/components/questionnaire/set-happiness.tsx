@@ -1,13 +1,19 @@
 import {Slider} from "@/components/ui/slider";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Happiness} from "@/lib/classes/Happiness";
 import './set-happiness.scss';
+import {useAuth} from "@/lib/hooks/useAuth";
+import {Skeleton} from "@/components/ui/skeleton";
 
 function SetHappiness({setState}: {
     setState: (value: number) => void;
 }) {
 
-    const [value, setValue] = useState<number>();
+    const today = new Date().setHours(0, 0, 0, 0);
+    const defaultValue = Happiness.MAX_VALUE / 2;
+
+    const {profile} = useAuth();
+    const [value, setValue] = useState<number>(defaultValue);
     const [happiness, setHappiness] = useState<string>();
 
     useEffect(() => {
@@ -18,15 +24,26 @@ function SetHappiness({setState}: {
         }
     }, [value]);
 
+    useEffect(() => {
+        if (profile && profile.happiness[today]) {
+            setValue(profile.happiness[today]);
+        }
+    }, [profile]);
+
     return (
         <div className="happiness-set">
             <Slider
-                defaultValue={[Happiness.MAX_VALUE / 2]}
+                defaultValue={[defaultValue]}
+                value={[value]}
                 max={Happiness.MAX_VALUE}
                 step={1}
                 onValueChange={(value) => setValue(value[0])}
             />
-            <p>{happiness}</p>
+            {!profile ? (
+                <div className="w-full flex justify-center">
+                    <Skeleton className="w-24 h-6" />
+                </div>
+            ) : (<p>{happiness}</p>)}
         </div>
     );
 }
