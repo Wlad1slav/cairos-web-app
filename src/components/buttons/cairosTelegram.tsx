@@ -1,4 +1,3 @@
-import {signIn} from "next-auth/react";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {ExternalLink} from "lucide-react";
@@ -6,7 +5,7 @@ import {ExternalLink} from "lucide-react";
 function CairosTelegram() {
     return (
         <Link href='https://t.me/radichcairos'>
-            <Button variant="outline" onClick={() => signIn('google')} className="w-full">
+            <Button variant="outline" className="w-full">
                 <div className="inside-button">
                     <p>Радіч - Час Каіросу</p>
                     <ExternalLink size={15}/>
