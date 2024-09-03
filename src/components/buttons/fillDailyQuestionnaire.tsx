@@ -9,10 +9,13 @@ function FillDailyQuestionnaire({completion}: {
     }
 }) {
     return (
-            <Button className="w-full" disabled={completion.mood && completion.checklist}>
-                <Link href={!completion.mood ? "/profile/questionnaire/mood" : "/profile/questionnaire/checklist"}>
-                <div className="inside-button">
-                    <p className={!completion.mood || !completion.checklist ? "font-bold" : undefined}>
+            <Button className="p-0" disabled={completion.mood && completion.checklist}>
+                <Link
+                    className="w-full h-full"
+                    href={!completion.mood ? "/profile/questionnaire/mood" : "/profile/questionnaire/checklist"}
+                >
+                <div className="inside-button flex justify-center p-2.5">
+                    <p className={!completion.mood || !completion.checklist ? "font-bold" : undefined} id="questionnaireButtonText">
                         { completion.mood && completion.checklist ? (
                             'Сьогоднішній Квестінарій пройдений'
                         ) : (
