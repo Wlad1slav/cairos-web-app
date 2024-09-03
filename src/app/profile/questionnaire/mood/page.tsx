@@ -10,16 +10,17 @@ import {useCallback, useEffect, useState} from "react";
 import SetBirthdate from "@/components/buttons/setBirthdate";
 import SetHappiness from "@/components/questionnaire/set-happiness";
 import SelectLastActivities from "@/components/questionnaire/select-last-activities";
-import axios from "axios";
 import QuestionnaireNavButtons from "@/components/questionnaire/questionnaire-nav-buttons";
 import {useToast} from "@/components/ui/use-toast";
 import { useRouter } from 'next/navigation';
+import {useRequest} from "@/lib/hooks/useRequest";
 
 function QuestionnairePage() {
     const {session, profile} = useAuth();
 
     const { toast } = useToast();
     const router = useRouter();
+    const {post} = useRequest();
 
     const [birthdate, setBirthdate] = useState<Date | undefined>(undefined);
     const [happinessValue, setHappinessValue] = useState<number>();
@@ -46,7 +47,7 @@ function QuestionnairePage() {
 
     const handleStoreMood = () => {
         setSubmitting(true);
-        axios.post('/api/v1/questionnaire/mood', {happinessValue, recentActivity})
+        post('/questionnaire/mood', {happinessValue, recentActivity})
             .then(() => router.push('/profile/questionnaire/checklist'))
             .catch((e) => {
                 const error = e as Error;

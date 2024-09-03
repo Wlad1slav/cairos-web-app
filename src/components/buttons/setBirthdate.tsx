@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Calendar as CalendarIcon } from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {Calendar as CalendarIcon} from "lucide-react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -11,17 +11,18 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import axios from "axios";
-import { useToast } from "@/components/ui/use-toast";
-import { SetBirthdateProps } from "@/lib/types";
-import { useState, useMemo } from "react";
-import { Calendar } from "@/components/ui/calendar";
+import {useToast} from "@/components/ui/use-toast";
+import {SetBirthdateProps} from "@/lib/types";
+import {useMemo, useState} from "react";
+import {Calendar} from "@/components/ui/calendar";
 import SearchSelect from "@/components/search-select";
+import {useRequest} from "@/lib/hooks/useRequest";
 
-function SetBirthdate({ stateToStore, currentBirthday }: SetBirthdateProps) {
+function SetBirthdate({stateToStore, currentBirthday}: SetBirthdateProps) {
     const [birthdate, setBirthdate] = useState<Date | undefined>(currentBirthday);
 
-    const { toast } = useToast();
+    const {toast} = useToast();
+    const {post} = useRequest();
 
     // State stores the date of the currently displayed calendar page.
     // If the user selects the year 2010 conditionally, the status changes to January 1, 2010,
@@ -33,14 +34,16 @@ function SetBirthdate({ stateToStore, currentBirthday }: SetBirthdateProps) {
     const yearsOptions = useMemo(() => {
         const startYear = currentYear - 13;
         const endYear = currentYear - 99;
-        return Array.from({ length: startYear - endYear + 1 }, (_, i) => ({
+        return Array.from({length: startYear - endYear + 1}, (_, i) => ({
             label: (startYear - i).toString(),
         }));
     }, [currentYear]);
 
     const handleStore = async () => {
+
         try {
-            await axios.post('/api/v1/birthdate', { birthdate });
+            // await axios.post('/api/v1/birthdate', {birthdate}, {headers: {'x-csrf-token': csrfToken || ''}});
+            await post('/birthdate', {birthdate});
             toast({
                 title: "Збережено.",
                 description: "Ваша дата народження збережена.",
@@ -66,7 +69,7 @@ function SetBirthdate({ stateToStore, currentBirthday }: SetBirthdateProps) {
                 <Button variant="outline" className="w-full">
                     <div className="inside-button">
                         <span>Встановити дату народження</span>
-                        <CalendarIcon size={16} />
+                        <CalendarIcon size={16}/>
                     </div>
                 </Button>
             </AlertDialogTrigger>

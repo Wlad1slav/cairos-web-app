@@ -3,19 +3,20 @@
 import React, {useEffect, useState} from "react";
 import AuthProvider from "@/components/providers/auth-provider";
 import {useSession} from "next-auth/react";
-import axios from "axios";
-import {ProfileModel} from "@/lib/models";
+import {TProfile} from "@/lib/models";
+import {useRequest} from "@/lib/hooks/useRequest";
 
 export default function ProfileLayout({ children, }: Readonly<{
     children: React.ReactNode;
 }>) {
     const {data: session} = useSession();
-    const [profile, setProfile] = useState<ProfileModel | null>(null);
+    const [profile, setProfile] = useState<TProfile | null>(null);
+    const {post} = useRequest();
 
     useEffect(() => {
         if (session) {
-            axios.post('/api/v1/profile').then(response => {
-                setProfile(response.data.profile as ProfileModel);
+            post('/profile').then(response => {
+                setProfile(response.data.profile as TProfile);
             });
         }
     }, [session]);

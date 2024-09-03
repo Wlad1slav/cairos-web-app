@@ -1,8 +1,9 @@
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import { noSessionError } from "@/lib/constants";
 import {Profile} from "@/lib/models";
+import {csrfMiddleware} from "@/middleware/csrf";
 
 /**
  * # Handles GET requests.
@@ -27,7 +28,13 @@ export async function GET() {
  * Retrieves the user session using NextAuth and attempts to find or create a corresponding user profile in the database.
  * If the session is not found or the user is not authenticated, it returns an error response.
  */
-export async function POST() {
+export async function POST(request: NextRequest) {
+
+    const middlewareResponse = csrfMiddleware(request);
+    if (middlewareResponse.status === 403) {
+        return middlewareResponse;
+    }
+
     // Fetch the session using NextAuth
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {

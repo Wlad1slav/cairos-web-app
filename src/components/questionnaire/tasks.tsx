@@ -10,11 +10,11 @@ import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import axios from "axios";
 import {toast} from "@/components/ui/use-toast";
 import QuestionnaireNavButtons from "@/components/questionnaire/questionnaire-nav-buttons";
 import {Button} from "@/components/ui/button";
 import {Loader2} from "lucide-react";
+import {useRequest} from "@/lib/hooks/useRequest";
 
 const FormSchema = z.object({
     daily: z.array(z.string()),
@@ -27,6 +27,7 @@ function Tasks({submitButton, afterSubmit}: {
 }) {
 
     const { profile } = useAuth();
+    const {post} = useRequest();
 
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,8 +67,7 @@ function Tasks({submitButton, afterSubmit}: {
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         setIsSubmitting(true);
-        axios
-            .post("/api/v1/questionnaire/checklist", data)
+        post("/questionnaire/checklist", data)
             .then(() => {
                 afterSubmit();
                 setIsSubmitting(false);

@@ -1,13 +1,19 @@
 import {noSessionError} from "@/lib/constants";
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/lib/authOptions";
 import {Profile} from "@/lib/models";
+import {csrfMiddleware} from "@/middleware/csrf";
 
 /**
  * # Handles POST requests.
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+
+    const middlewareResponse = csrfMiddleware(request);
+    if (middlewareResponse.status === 403) {
+        return middlewareResponse;
+    }
 
     // Fetch the session using NextAuth
     const session = await getServerSession(authOptions);
