@@ -4,6 +4,7 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "@/lib/authOptions";
 import {Profile} from "@/lib/models";
 import {csrfMiddleware} from "@/middleware/csrf";
+import {authMiddleware} from "@/middleware/auth";
 
 /**
  * # Handles POST requests.
@@ -15,10 +16,10 @@ export async function POST(request: NextRequest) {
         return middlewareResponse;
     }
 
-    // Fetch the session using NextAuth
     const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
-        return NextResponse.json(noSessionError, {status: 401}); // Return an error if the session is not found or the user is not authenticated
+    const middlewareAuthResponse = authMiddleware(session);
+    if (middlewareAuthResponse.status === 401) {
+        return middlewareAuthResponse;
     }
 
     try {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
         // If there is no key with today's date, then a new key is created and the array is stored on it.
         // If it exists, the list is simply updated.
         await Profile.updateOne(
-            { email: session.user.email },
+            { email: session?.user?.email },
             {
                 $set: {
                     [`dailyChecks.${today}`]: daily,

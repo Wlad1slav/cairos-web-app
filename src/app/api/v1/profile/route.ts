@@ -1,9 +1,9 @@
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 import {NextRequest, NextResponse} from "next/server";
-import { noSessionError } from "@/lib/constants";
 import {Profile} from "@/lib/models";
 import {csrfMiddleware} from "@/middleware/csrf";
+import {authMiddleware} from "@/middleware/auth";
 
 /**
  * # Handles GET requests.
@@ -13,11 +13,12 @@ import {csrfMiddleware} from "@/middleware/csrf";
  */
 export async function GET() {
     const session = await getServerSession(authOptions);
-    if (!session) {
-        return NextResponse.json(noSessionError); // Return an error if the session is not found
+    const middlewareAuthResponse = authMiddleware(session);
+    if (middlewareAuthResponse.status === 401) {
+        return middlewareAuthResponse;
     }
 
-    const profile = await Profile.findOne({ email: session.user?.email });
+    const profile = await Profile.findOne({ email: session?.user?.email });
 
     return NextResponse.json({ session, profile });
 }
@@ -30,25 +31,25 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
 
-    const middlewareResponse = csrfMiddleware(request);
-    if (middlewareResponse.status === 403) {
-        return middlewareResponse;
+    const middlewareCsrfResponse = csrfMiddleware(request);
+    if (middlewareCsrfResponse.status === 403) {
+        return middlewareCsrfResponse;
     }
 
-    // Fetch the session using NextAuth
     const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
-        return NextResponse.json(noSessionError, {status: 401}); // Return an error if the session is not found or the user is not authenticated
+    const middlewareAuthResponse = authMiddleware(session);
+    if (middlewareAuthResponse.status === 401) {
+        return middlewareAuthResponse;
     }
 
     // Create user profile
     try {
-        const existingProfile = await Profile.findOne({ email: session.user.email });
+        const existingProfile = await Profile.findOne({ email: session?.user?.email });
         if (existingProfile) {
             return NextResponse.json({ session, profile: existingProfile }); // Return the session & EXISTING profile data
         }
 
-        const profile = new Profile({email: session.user.email});
+        const profile = new Profile({email: session?.user?.email});
         return NextResponse.json({ session, profile: profile.save() }); // Return the session & CREATED profile data
     } catch (e) {
         console.error(e);

@@ -4,6 +4,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {noSessionError} from "@/lib/constants";
 import {Profile} from "@/lib/models";
 import {csrfMiddleware} from "@/middleware/csrf";
+import {authMiddleware} from "@/middleware/auth";
 
 
 /**
@@ -16,10 +17,10 @@ export async function POST(request: NextRequest) {
         return middlewareResponse;
     }
 
-    // Fetch the session using NextAuth
     const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
-        return NextResponse.json(noSessionError, {status: 401}); // Return an error if the session is not found or the user is not authenticated
+    const middlewareAuthResponse = authMiddleware(session);
+    if (middlewareAuthResponse.status === 401) {
+        return middlewareAuthResponse;
     }
 
     const today = new Date().setHours(0,0,0,0);
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
         const {happinessValue, recentActivity} = await request.json();
 
         await Profile.updateOne(
-            { email: session.user.email },
+            { email: session?.user?.email },
             {
                 $set: {
                     [`happiness.${today}`]: happinessValue,
