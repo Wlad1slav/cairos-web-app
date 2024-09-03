@@ -38,4 +38,18 @@ describe('LeftUntilHundred', () => {
 
         jest.useRealTimers();
     });
+
+    it('Birthday more than 100 years ago', () => {
+        const fixedNow = new Date('2100-01-01T00:00:00.000Z');
+        jest.useFakeTimers().setSystemTime(fixedNow);
+
+        const birthdate = new Date('1995-01-01T00:00:00.000Z');
+
+        render(<LeftUntilHundred birthdate={birthdate} />);
+
+        expect(screen.getByText('Ви досягли мети 😱')).toBeInTheDocument();
+        expect(screen.getByText('У нас немає слів, ви просто герой! Ви стали героєм не тільки свого, але і нашого роману.')).toBeInTheDocument();
+
+        jest.useRealTimers();
+    });
 });
