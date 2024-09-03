@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createCSRFToken, verifyCSRFToken } from '@/lib/utils/csrf';
+import {csrfError} from "@/lib/constants";
 
 export function csrfMiddleware(req: NextRequest) {
     const csrfToken = req.headers.get('x-csrf-token');
 
     if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
         if (!csrfToken || !verifyCSRFToken(csrfToken)) {
-            return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+            return NextResponse.json(csrfError, { status: 403 });
         }
     }
 
