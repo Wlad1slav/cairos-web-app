@@ -2,11 +2,11 @@
 
 import Tasks from "@/components/questionnaire/tasks";
 import React from "react";
-import {useRouter} from "next/navigation";
+import {useToast} from "@/components/ui/use-toast";
 
 function QuestionnaireChecklistPage() {
 
-    const router = useRouter();
+    const {toast} = useToast();
 
     return (
         <main>
@@ -14,7 +14,7 @@ function QuestionnaireChecklistPage() {
                 <h1>Чек-ліст ☑️</h1>
                 <Tasks
                     submitButton={'questionnaire_navigation'}
-                    afterSubmit={() => router.push('/profile/questionnaire/quote')}
+                    afterSubmit={() => toast({title: "Чеклісти збереженні"})}
                 />
             </div>
         </main>
