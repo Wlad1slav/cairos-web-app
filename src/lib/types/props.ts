@@ -33,10 +33,7 @@ export type QuestionnaireNavButtonsProps = {
     continueDisabled: boolean;
     submitting: boolean;
     onContinue?: () => void;
-    nextUrl: string;
-    backUrl: string;
     enableNext?: boolean;
-    end?: boolean;
 };
 
 export type ChecklistProps = {

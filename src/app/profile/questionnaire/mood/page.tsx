@@ -12,15 +12,16 @@ import SetHappiness from "@/components/questionnaire/set-happiness";
 import SelectLastActivities from "@/components/questionnaire/select-last-activities";
 import QuestionnaireNavButtons from "@/components/questionnaire/questionnaire-nav-buttons";
 import {useToast} from "@/components/ui/use-toast";
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import {useRequest} from "@/lib/hooks/useRequest";
 
 function QuestionnairePage() {
-    const {session, profile} = useAuth();
 
-    const { toast } = useToast();
+    const {session, profile} = useAuth();
+    const {toast} = useToast();
     const router = useRouter();
     const {post} = useRequest();
+
 
     const [birthdate, setBirthdate] = useState<Date | undefined>(undefined);
     const [happinessValue, setHappinessValue] = useState<number>();
@@ -101,16 +102,14 @@ function QuestionnairePage() {
                 }
 
                 <h2>Рівень щастя 🌈</h2>
-                <SetHappiness setState={handleHappinessChange} />
+                <SetHappiness setState={handleHappinessChange}/>
 
-                <SelectLastActivities setState={handleRecentActivityChange} />
+                <SelectLastActivities setState={handleRecentActivityChange}/>
 
                 <QuestionnaireNavButtons
                     continueDisabled={!happinessValue || !recentActivity}
                     submitting={submitting}
                     onContinue={handleStoreMood}
-                    backUrl="/profile"
-                    nextUrl="/profile/questionnaire/checklist"
                 />
             </div>
         </main>

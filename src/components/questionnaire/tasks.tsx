@@ -119,8 +119,6 @@ function Tasks({submitButton, afterSubmit}: {
                         continueDisabled={false}
                         submitting={isSubmitting}
                         onContinue={() => {}}
-                        backUrl="/profile/questionnaire/mood"
-                        nextUrl="/profile/questionnaire/quote"
                     />
                 ) : (
                     <Button disabled={isSubmitting || isLoading}>
