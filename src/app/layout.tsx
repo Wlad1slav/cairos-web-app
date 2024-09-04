@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import './scss/emoji.scss';
+import '@/styles/emoji.scss';
 import SessionWrapper from "@/components/providers/session-wrapper";
 import {Toaster} from "@/components/ui/toaster";
 import React from "react";
