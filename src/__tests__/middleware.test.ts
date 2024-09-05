@@ -8,6 +8,8 @@ import {createCSRFToken, verifyCSRFToken} from "@/lib/utils/csrf";
 import {NextRequest, NextResponse} from "next/server";
 import {csrfMiddleware} from "@/middleware/csrf";
 import {csrfError} from "@/lib/constants";
+import {adminMiddleware} from "@/middleware/admin";
+import {TProfile} from "@/lib/models";
 
 jest.mock('../lib/utils/csrf', () => ({
     createCSRFToken: jest.fn(),
@@ -32,6 +34,24 @@ describe("Middleware Tests", () => {
 
         it("should return a status of 200 because the user is authorized (valid session)", () => {
             const response = authMiddleware(defaultSession);
+            expect(response.status).toBe(200);
+        });
+    });
+
+    describe("adminMiddleware", () => {
+        it("should return a 403 status because the user is not admin", () => {
+            const profile = {
+                isAdmin: false
+            };
+            const response = adminMiddleware(profile as TProfile);
+            expect(response.status).toBe(403);
+        });
+
+        it("should return a status of 200 because the user is admin", () => {
+            const profile = {
+                isAdmin: true
+            };
+            const response = adminMiddleware(profile as TProfile);
             expect(response.status).toBe(200);
         });
     });

@@ -33,6 +33,10 @@ const ProfileSchema = new mongoose.Schema(
                 checklist: Boolean,
             },
         },
+        isAdmin: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: true
@@ -47,6 +51,7 @@ export type TProfile = {
     dailyChecks: { [key: string]: string[]; };
     cairosChecks: { [key: string]: string[]; };
     questionnaire: { [key: string]: { mood: boolean; checklist: boolean; }; };
+    isAdmin: boolean;
 };
 
 export const Profile = mongoose.models.Profile || mongoose.model<TProfile>('Profile', ProfileSchema);

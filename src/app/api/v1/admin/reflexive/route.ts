@@ -4,6 +4,8 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "@/lib/authOptions";
 import {authMiddleware} from "@/middleware/auth";
 import {Reflexive} from "@/lib/models/reflexive.schema";
+import {Profile} from "@/lib/models";
+import {adminMiddleware} from "@/middleware/admin";
 
 export async function POST(request: NextRequest) {
     const middlewareCsrfResponse = csrfMiddleware(request);
@@ -14,6 +16,12 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
     const middlewareAuthResponse = authMiddleware(session);
     if (middlewareAuthResponse.status === 401) {
+        return middlewareAuthResponse;
+    }
+
+    const profile = await Profile.findOne({ email: session?.user?.email });
+    const middlewareAdminResponse = adminMiddleware(profile);
+    if (middlewareAdminResponse.status === 403) {
         return middlewareAuthResponse;
     }
 

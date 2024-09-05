@@ -1,0 +1,7 @@
+main {
+  padding: 20px 10%;
+
+  @media only screen and (max-width: 768px) {
+    padding: 10px;
+  }
+}

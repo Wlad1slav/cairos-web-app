@@ -5,3 +5,7 @@ export const noSessionError = {
 export const csrfError = {
     error: 'Invalid CSRF token'
 };
+
+export const noAdminRightsError = {
+    message: "Insufficient rights.",
+};
