@@ -25,15 +25,26 @@ import {Textarea} from "@/components/ui/textarea";
 import Link from "next/link";
 import Image from "next/image";
 import {useRequest} from "@/lib/hooks/useRequest";
+import {isImageURL} from "@/lib/utils";
+import {useToast} from "@/components/ui/use-toast";
+import {useRouter} from "next/navigation";
 
 const formSchema = z.object({
     text: z.string().min(2).max(1000),
-    imageUrl: z.string().min(2).max(255).url(),
+    imageUrl: z.string()
+        .min(2)
+        .max(255)
+        .url()
+        .refine((value) => {
+            return isImageURL(value);
+        }, {
+            message: "URL повинен вести напряму до зображення",
+        }),
     day: z.number().gte(0).lte(6),
     type: z.enum(['Цитата', 'Питання', 'Дія']) //z.string().min(2).max(255),
 });
 
-function ReflexiveForm() {
+function rForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -45,11 +56,24 @@ function ReflexiveForm() {
     });
 
     const {post} = useRequest();
+    const {toast} = useToast();
+    const router = useRouter();
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         post("/admin/reflexive", values)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
+            .then(() => {
+                toast({
+                    title: `${values.type} збережено`,
+                });
+                router.back();
+            })
+            .catch((err) => {
+                toast({
+                    variant: "destructive",
+                    title: `Помилка при збереженні рефлексії "${values.type}"`,
+                    description: (err as Error).message,
+                });
+            });
     }
 
     return (
@@ -58,7 +82,7 @@ function ReflexiveForm() {
             {/* https://i.postimg.cc/vTwY6hFz/DALL-E-2024-09-04-13-34-42-A-person-standing-on-a-mountaintop-at-sunrise-with-arms-outstretched.webp */}
 
             <div className="flex justify-center">
-                { form.control._formValues['imageUrl'] && (
+                { isImageURL(form.control._formValues['imageUrl']) && (
                     <Image
                         src={form.control._formValues['imageUrl']}
                         alt={''}

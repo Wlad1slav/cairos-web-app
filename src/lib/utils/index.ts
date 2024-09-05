@@ -14,3 +14,8 @@ export function calculateForHundredYearTime(birthdate: Date) {
 
     return { days, months, weeks, years };
 }
+
+export function isImageURL(url: string): boolean {
+    const imagePattern = new RegExp('^https?:\\/\\/.+\\.(jpg|jpeg|png|gif|bmp|webp|svg)$', 'i');
+    return !!imagePattern.test(url);
+}
