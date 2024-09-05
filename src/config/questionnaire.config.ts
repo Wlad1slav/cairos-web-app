@@ -1,7 +1,7 @@
 export const questionnaireSequence = [
     'mood',
     'checklist',
-    // 'question',
-    // 'quote',
-    // 'action'
+    'question',
+    'quote',
+    'action'
 ];

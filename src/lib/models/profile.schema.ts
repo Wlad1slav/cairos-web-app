@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {TSocraticQuestioning} from "@/lib/types";
 
 const ProfileSchema = new mongoose.Schema(
     {
@@ -33,6 +34,23 @@ const ProfileSchema = new mongoose.Schema(
                 checklist: Boolean,
             },
         },
+        reflexive: {
+            type: Map,
+            of: {
+                quote: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Reflexive',
+                },
+                question: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Reflexive',
+                },
+                action: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Reflexive',
+                }
+            },
+        },
         isAdmin: {
             type: Boolean,
             default: false
@@ -51,6 +69,13 @@ export type TProfile = {
     dailyChecks: { [key: string]: string[]; };
     cairosChecks: { [key: string]: string[]; };
     questionnaire: { [key: string]: { mood: boolean; checklist: boolean; }; };
+    reflexive: {
+        [key: string]: {
+            quote: TSocraticQuestioning;
+            question: TSocraticQuestioning;
+            action: TSocraticQuestioning;
+        }
+    }
     isAdmin: boolean;
 };
 
