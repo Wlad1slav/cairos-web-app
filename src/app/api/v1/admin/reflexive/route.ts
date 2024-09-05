@@ -7,6 +7,35 @@ import {Reflexive} from "@/lib/models/reflexive.schema";
 import {Profile} from "@/lib/models";
 import {adminMiddleware} from "@/middleware/admin";
 
+export async function GET(request: NextRequest) {
+    const url = new URL(request.url);
+
+    // Pagination settings
+    const page = Number(url.searchParams.get('page') ?? 1);
+    const pageSize = 30;
+    const skip = (page - 1) * pageSize;
+
+    // Setting query to the database
+    const type = url.searchParams.get('type');
+    const query = type ? { type } : {};
+
+    try {
+        const reflexives = await Reflexive
+            .find(query)
+            .skip(skip)
+            .limit(pageSize)
+            .exec();
+
+        // Total number of pages for pagination
+        const total = await Reflexive.countDocuments().exec();
+        const totalPages = Math.ceil(total / pageSize);
+
+        return NextResponse.json({ reflexives, totalPages });
+    } catch (e) {
+        return NextResponse.json({ message: e }, { status: 500 });
+    }
+}
+
 export async function POST(request: NextRequest) {
     const middlewareCsrfResponse = csrfMiddleware(request);
     if (middlewareCsrfResponse.status === 403) {

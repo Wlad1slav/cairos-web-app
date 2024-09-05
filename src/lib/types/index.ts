@@ -6,6 +6,7 @@ export type TChecks = {
 };
 
 export type TSocraticQuestioning = {
+    _id?: string;
     text: string;
     imageUrl: string;
     day: 0 | 1 | 2 | 3 | 4 | 5 | 6;

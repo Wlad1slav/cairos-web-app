@@ -94,3 +94,9 @@ body {
   align-items: center;
   gap: 5px;
 }
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

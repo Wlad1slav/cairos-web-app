@@ -1,7 +1,6 @@
 import React, {Dispatch, SetStateAction} from "react";
 import {TProfile} from "@/lib/models";
 import {Session} from "next-auth";
-import QuestionnaireNavButtons from "@/components/questionnaire/questionnaire-nav-buttons";
 
 export type AchievementBoxProps = {
     icon: React.ReactNode;
@@ -11,6 +10,10 @@ export type AchievementBoxProps = {
 export type AuthProviderProps = {
     profile: TProfile | null;
     session: Session | null;
+};
+
+export type AdminProviderProps = {
+    isAdmin: boolean;
 };
 
 export type SetBirthdateProps = {
@@ -40,4 +43,9 @@ export type ChecklistProps = {
     items: { label: string, description: string }[];
     name: string;
     control: any;
+};
+
+export type TablePaginationProps = {
+    page: number;
+    totalPages: number;
 };
