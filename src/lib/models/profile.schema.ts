@@ -1,7 +1,30 @@
-import mongoose from 'mongoose';
-import {TSocraticQuestioning} from "@/lib/types";
+import mongoose, { Document } from 'mongoose';
+import { TSocraticQuestioning } from "@/lib/types";
 
-const ProfileSchema = new mongoose.Schema(
+export type TProfile = {
+    email: string;
+    birthdate: Date;
+    happiness: { [key: string]: number; };
+    recentActions: { [key: string]: string; };
+    dailyChecks: { [key: string]: string[]; };
+    cairosChecks: { [key: string]: string[]; };
+    questionnaire: { [key: string]: { mood: boolean; checklist: boolean; }; };
+    reflexive: {
+        [key: string]: {
+            quote: TSocraticQuestioning;
+            question: TSocraticQuestioning;
+            action: TSocraticQuestioning;
+        }
+    },
+    activity: Map<string, boolean>;
+    isAdmin: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+interface ProfileDocument extends TProfile, Document {}
+
+const ProfileSchema = new mongoose.Schema<ProfileDocument>(
     {
         email: {
             type: String,
@@ -51,6 +74,11 @@ const ProfileSchema = new mongoose.Schema(
                 }
             },
         },
+        activity: {
+            type: Map,
+            of: Boolean,
+            default: {},
+        },
         isAdmin: {
             type: Boolean,
             default: false
@@ -61,22 +89,19 @@ const ProfileSchema = new mongoose.Schema(
     }
 );
 
-export type TProfile = {
-    email: string;
-    birthdate: string;
-    happiness: { [key: string]: number; };
-    recentActions: { [key: string]: string; };
-    dailyChecks: { [key: string]: string[]; };
-    cairosChecks: { [key: string]: string[]; };
-    questionnaire: { [key: string]: { mood: boolean; checklist: boolean; }; };
-    reflexive: {
-        [key: string]: {
-            quote: TSocraticQuestioning;
-            question: TSocraticQuestioning;
-            action: TSocraticQuestioning;
-        }
-    }
-    isAdmin: boolean;
-};
+// Intermediate function to update activity
+ProfileSchema.post('findOne', function (doc, next) {
+    if (doc) {
+        const today = new Date().setHours(0, 0, 0, 0);
 
-export const Profile = mongoose.models.Profile || mongoose.model<TProfile>('Profile', ProfileSchema);
+        // Set the activity to true for today
+        doc.activity.set(today.toString(), true);
+
+        // Save the document after modification
+        doc.save().then(() => next()).catch(next);
+    } else {
+        next();
+    }
+});
+
+export const Profile = mongoose.models.Profile || mongoose.model<ProfileDocument>('Profile', ProfileSchema);
