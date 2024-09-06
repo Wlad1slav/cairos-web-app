@@ -44,7 +44,7 @@ const formSchema = z.object({
     type: z.enum(['Цитата', 'Питання', 'Дія']) //z.string().min(2).max(255),
 });
 
-function rForm() {
+function ReflexiveForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
