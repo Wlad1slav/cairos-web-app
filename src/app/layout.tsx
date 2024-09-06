@@ -4,10 +4,14 @@ import '@/styles/emoji.scss';
 import SessionWrapper from "@/components/providers/session-wrapper";
 import {Toaster} from "@/components/ui/toaster";
 import React from "react";
+import {landingMetadata} from "@/config/landing.config";
 
 export const metadata: Metadata = {
-  title: "Cairos — Додаток для саморозвитку",
-  description: "Додаток саморозвитку. Шедевр кожного дня через яскраві звички в креативності, фінансах, розвитку розуму, тіла та відносин.",
+    ...landingMetadata,
+    openGraph: {
+        ...landingMetadata,
+        images: '/assets/images/landing_image.webp',
+    }
 };
 
 export default function RootLayout({
