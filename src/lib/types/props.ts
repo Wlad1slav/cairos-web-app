@@ -1,6 +1,7 @@
 import React, {Dispatch, SetStateAction} from "react";
 import {TProfile} from "@/lib/models";
 import {Session} from "next-auth";
+import {TChartData} from "@/lib/types/index";
 
 export type AchievementBoxProps = {
     icon: React.ReactNode;
@@ -56,4 +57,7 @@ export type IconProps = {
     height?: number;
     className?: string;
 };
+
+export type DateAmountChartProps = {
+    data: TChartData[];
 };
