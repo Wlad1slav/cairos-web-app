@@ -49,3 +49,11 @@ export type TablePaginationProps = {
     page: number;
     totalPages: number;
 };
+
+export type IconProps = {
+    color?: string;
+    width?: number;
+    height?: number;
+    className?: string;
+};
+};
