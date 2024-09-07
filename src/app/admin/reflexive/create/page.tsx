@@ -1,4 +1,4 @@
-import ReflexiveForm from "@/components/questioning/reflexive-form";
+import ReflexiveForm from "@/components/admin/reflexive-form";
 
 function QuoteCreateForm() {
     return (
