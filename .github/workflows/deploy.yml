@@ -1,42 +1,24 @@
-name: Deploy website
-
-on: [push]
-
+name: Build and Deploy to Netlify
+on:
+  push:
+  pull_request:
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Install Netlify CLI
-        run: npm install netlify-cli@17.10.1 -g
-
-      - name: Link Netlify Site
-        run: netlify link --id ${{ secrets.NETLIFY_SITE_ID }}
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_API_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+      - uses: actions/checkout@v4
 
       - name: Deploy to Netlify
-        run: |
-          netlify deploy \ 
-            --dir=.next \
-            --prod \
-            --site=${{ secrets.NETLIFY_SITE_ID }} \
-            --auth=${{ secrets.NETLIFY_API_TOKEN }}
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './.next'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
         env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_API_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+        timeout-minutes: 1
