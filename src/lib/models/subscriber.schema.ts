@@ -7,4 +7,4 @@ const SubscriberSchema = new mongoose.Schema(
     }
 );
 
-export const Subscriber = mongoose.models.SubscriberSchema || mongoose.model<TSubscriber>('Subscriber', SubscriberSchema);
+export const Subscriber = mongoose.models.Subscriber || mongoose.model<TSubscriber>('Subscriber', SubscriberSchema);
