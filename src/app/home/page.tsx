@@ -1,10 +1,9 @@
 import Link from "next/link"
-import {Input} from "@/components/ui/input"
-import {Button} from "@/components/ui/button"
 import Image from "next/image";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,} from "@/components/ui/tooltip"
 import {HeartPulseIcon, HourglassIcon, SmileIcon} from "lucide-react";
 import {header} from "@/config/landing.config";
+import SubscribeForm from "@/components/landing/subscribe-form";
 
 export default function HomePage() {
     return (
@@ -134,11 +133,7 @@ export default function HomePage() {
                                     найкращого життя.
                                 </p>
                             </div>
-                            <form className="flex gap-2">
-                                <Input type="email" placeholder="Введіть свою електронну адресу"
-                                       className="max-w-lg flex-1"/>
-                                <Button type="submit">Підписатися</Button>
-                            </form>
+                            <SubscribeForm />
                             <div className="flex justify-center gap-4">
                                 { Object.entries(header.networks).map(([key, value]) => (
                                     <Link key={key} href={value.url} className="text-muted-foreground hover:text-primary" prefetch={false}>
@@ -150,18 +145,6 @@ export default function HomePage() {
                     </div>
                 </section>
             </main>
-            <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-                <p className="text-xs text-muted-foreground">&copy; {new Date().getFullYear()} Cairos. Усі права
-                    захищені.</p>
-                <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-                    <Link href="#" className="text-xs hover:underline underline-offset-4" prefetch={false}>
-                        Умови надання послуг
-                    </Link>
-                    <Link href="#" className="text-xs hover:underline underline-offset-4" prefetch={false}>
-                        Політика конфіденційності
-                    </Link>
-                </nav>
-            </footer>
         </div>
     )
 }

@@ -17,3 +17,7 @@ export type TChartData = {
     date: string;
     amount: number;
 };
+
+export type TSubscriber = {
+    email: string;
+};
