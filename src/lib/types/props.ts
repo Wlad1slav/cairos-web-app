@@ -62,3 +62,10 @@ export type IconProps = {
 export type DateAmountChartProps = {
     data: TChartData[];
 };
+
+export type PolicyProps = {
+    policies: {
+        heading: string;
+        content: string[];
+    }[];
+};
