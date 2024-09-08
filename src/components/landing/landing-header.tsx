@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 function LandingHeader() {
     return (
         <header className="px-4 lg:px-6 h-14 flex items-center">
-            <Link href="#" className="flex items-center justify-center" prefetch={false}>
+            <Link href="/" className="flex items-center justify-center" prefetch={false}>
                 <Image src={header.logoImagePath} alt='Cairos logo' width={200} height={43}/>
                 <span className="sr-only">Cairos</span>
             </Link>
