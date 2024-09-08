@@ -8,10 +8,10 @@ import {landingMetadata} from "@/config/landing.config";
 
 export const metadata: Metadata = {
     ...landingMetadata,
-    openGraph: {
-        ...landingMetadata,
-        images: '/assets/images/landing_image.webp',
-    }
+    // openGraph: {
+    //     ...landingMetadata,
+    //     images: '/assets/images/landing_image.webp',
+    // }
 };
 
 export default function RootLayout({
