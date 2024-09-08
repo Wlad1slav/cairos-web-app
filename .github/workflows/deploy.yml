@@ -33,11 +33,10 @@ jobs:
       - name: Deploy to Netlify
         run: |
           netlify deploy \ 
-            --dir .next/out \
-            --build \
+            --dir=.next \
             --prod \
-            --site ${{ secrets.NETLIFY_SITE_ID }} \
-            --auth ${{ secrets.NETLIFY_API_TOKEN }}
+            --site=${{ secrets.NETLIFY_SITE_ID }} \
+            --auth=${{ secrets.NETLIFY_API_TOKEN }}
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_API_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
