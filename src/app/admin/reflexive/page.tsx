@@ -7,7 +7,7 @@ import cairosDays from "@/lib/constants/cairosDays";
 
 async function getData(page: number = 1, type: string | undefined) {
     const url = process.env.NEXTAUTH_URL;
-    return axios.get(`${url}api/v1/admin/reflexive?page=${page}` + (type ? `&type=${type}` : ""));
+    return axios.get(`${url}/api/v1/admin/reflexive?page=${page}` + (type ? `&type=${type}` : ""));
 }
 
 async function ReflexiveTable({ searchParams }: { searchParams: { [key: string]: string } }) {

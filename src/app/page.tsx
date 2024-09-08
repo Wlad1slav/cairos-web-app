@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
         openGraph: {
             title: landingMetadata.title,
             description: landingMetadata.description,
-            images: `${metadataBase}assets/images/landing_image.webp`,
+            images: `${metadataBase}/assets/images/landing_image.webp`,
         },
     };
 }
