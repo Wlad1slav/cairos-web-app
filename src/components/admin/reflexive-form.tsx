@@ -30,7 +30,7 @@ import {useToast} from "@/components/ui/use-toast";
 import {useRouter} from "next/navigation";
 
 const formSchema = z.object({
-    text: z.string().min(2).max(1000),
+    text: z.string().min(2),
     imageUrl: z.string()
         .min(2)
         .max(255)
