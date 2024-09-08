@@ -2,10 +2,12 @@ import {IconProps} from "@/lib/types";
 import React from "react";
 
 function Icon({children, color = 'currentColor', height = 24, width = 24, className}: {
+function Icon({children, color = 'currentColor', height = 24, width = 24, className, viewBox="0 0 16 16"}: {
     children: React.ReactNode;
 } & IconProps) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={className} width={width} height={height}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox} className={className} width={width} height={height}
              fill={color}>
             {children}
         </svg>

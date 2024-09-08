@@ -56,6 +56,7 @@ export type IconProps = {
     width?: number;
     height?: number;
     className?: string;
+    viewBox?: string;
 };
 
 export type DateAmountChartProps = {
