@@ -24,14 +24,20 @@ jobs:
       - name: Install Netlify CLI
         run: npm install netlify-cli@17.10.1 -g
 
+      - name: Link Netlify Site
+        run: netlify link --id ${{ secrets.NETLIFY_SITE_ID }}
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_API_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+
       - name: Deploy to Netlify
         run: |
           netlify deploy \ 
             --build \
-            --dir=.next \
+            --dir .next \
             --prod \
-            --site=${{ secrets.NETLIFY_SITE_ID }} \
-            --auth=${{ secrets.NETLIFY_API_TOKEN }}
+            --site ${{ secrets.NETLIFY_SITE_ID }} \
+            --auth ${{ secrets.NETLIFY_API_TOKEN }}
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_API_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
