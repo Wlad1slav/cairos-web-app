@@ -1,11 +1,17 @@
-import {signIn} from "next-auth/react";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 
 function SignInWithGoogle() {
 
     const handleSignIn = async () => {
-        await signIn('google');
+        // URL for Google authentication
+        const googleSignInUrl = '/api/auth/signin/google';
+
+        // Redirects the user to an external browser
+        // This is required for correct authorization through the mobile application
+        if (typeof window !== "undefined") {
+            window.open(googleSignInUrl, '_blank'); // Opens the URL in a new window or tab
+        }
     }
 
     return (
