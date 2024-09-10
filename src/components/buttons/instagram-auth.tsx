@@ -2,25 +2,25 @@ import {signIn} from "next-auth/react";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
 
-function SignInWithGoogle() {
+function SignInWithInstagram() {
 
     const handleSignIn = async () => {
-        await signIn('google');
+        await signIn('instagram');
     }
 
     return (
-        <Button variant="outline" onClick={handleSignIn} className="w-full">
+        <Button variant="outline" onClick={handleSignIn}>
             <div className="inside-button">
                 <Image
-                    src="/assets/images/Google__G__logo.svg.webp"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s"
                     alt="google logo"
                     width={24}
                     height={24}
                 />
-                <p>Увійти з Google</p>
+                <p>Увійти з Instagram</p>
             </div>
         </Button>
     );
 }
 
-export default SignInWithGoogle;
+export default SignInWithInstagram;

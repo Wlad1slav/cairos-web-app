@@ -29,7 +29,7 @@ export default function InstallPWAButton() {
     const handleInstallClick = async () => {
         if (!deferredPrompt) return;
         deferredPrompt.prompt(); // Shows the installation dialog
-        const choiceResult = await deferredPrompt.userChoice; // Очікує відповідь користувача
+        const choiceResult = await deferredPrompt.userChoice; // Waiting for user response
         if (choiceResult.outcome === 'accepted') {
             console.log('Користувач прийняв встановлення PWA');
         } else {
