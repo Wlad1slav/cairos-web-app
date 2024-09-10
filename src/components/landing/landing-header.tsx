@@ -4,6 +4,7 @@ import {header} from "@/config/landing.config";
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetHeader, SheetTrigger,} from "@/components/ui/sheet"
 import {Ellipsis} from "lucide-react";
+import InstallPWAButton from "@/components/buttons/install-pwa";
 
 function LandingHeader() {
     return (
@@ -23,11 +24,14 @@ function LandingHeader() {
                         {value.label}
                     </Link>
                 ))}
-                <Link href="/login" prefetch={false}>
-                    <Button>
-                        Увійти
-                    </Button>
-                </Link>
+                <div className="space-x-2">
+                    <Link href="/login" prefetch={false}>
+                        <Button variant="outline">
+                            Увійти
+                        </Button>
+                    </Link>
+                    <InstallPWAButton />
+                </div>
             </nav>
             <div className="sm:hidden flex w-full justify-end">
                 <Sheet>
@@ -48,10 +52,11 @@ function LandingHeader() {
                                 </Link>
                             ))}
                             <Link href="/login" prefetch={false}>
-                                <Button className="w-full">
+                                <Button className="w-full" variant="outline">
                                     Увійти
                                 </Button>
                             </Link>
+                            <InstallPWAButton />
                         </SheetHeader>
                     </SheetContent>
                 </Sheet>

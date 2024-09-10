@@ -4,6 +4,8 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,} from "@/compo
 import {HeartPulseIcon, HourglassIcon, SmileIcon} from "lucide-react";
 import {header} from "@/config/landing.config";
 import SubscribeForm from "@/components/landing/subscribe-form";
+import InstallPWAButton from "@/components/buttons/install-pwa";
+import {Button} from "@/components/ui/button";
 
 export default function HomePage() {
     return (
@@ -54,7 +56,7 @@ export default function HomePage() {
                                 </div>
                             </div>
                             <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                                <HeartPulseIcon className="h-12 w-12" color="#648B7E" />
+                                <HeartPulseIcon className="h-12 w-12" color="#648B7E"/>
                                 <div className="space-y-2">
                                     <h3 className="text-2xl font-bold">Здоровий спосіб життя</h3>
                                     <p className="text-muted-foreground">
@@ -64,7 +66,7 @@ export default function HomePage() {
                                 </div>
                             </div>
                             <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                                <HourglassIcon className="h-12 w-12" color="#496995" />
+                                <HourglassIcon className="h-12 w-12" color="#496995"/>
                                 <div className="space-y-2">
                                     <h3 className="text-2xl font-bold">Довголіття</h3>
                                     <p className="text-muted-foreground">Розкрийте секрети довгого, повноцінного
@@ -84,26 +86,51 @@ export default function HomePage() {
                                     Отримайте додаток Cairos у Google Play або увійдіть через браузер.
                                 </p>
                             </div>
-                            <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
-                                <Link
-                                    href="/"
-                                    className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                                    prefetch={false}
-                                >
-                                    <div className="inside-button">
-                                        <Image src="/assets/images/gp.webp" alt="Google play logo" width={24}
-                                               height={24}/>
-                                        Google Play
-                                    </div>
+
+                            <div className="flex flex-col gap-2 justify-center">
+                                <InstallPWAButton/>
+                                <Link href="/login" className="w-full">
+                                    <Button variant="outline" className="w-full">
+                                        Увійти через браузер
+                                    </Button>
                                 </Link>
+                            </div>
+                            <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
+                                {/*<Link*/}
+                                {/*    href="/"*/}
+                                {/*    className="w-full inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"*/}
+                                {/*    prefetch={false}*/}
+                                {/*>*/}
+                                {/*    <span className="inside-button">*/}
+                                {/*        <Image src="/assets/images/gp.webp" alt="Google play logo" width={24}*/}
+                                {/*               height={24}/>*/}
+                                {/*        Google Play*/}
+                                {/*    </span>*/}
+                                {/*</Link>*/}
                                 <TooltipProvider>
                                     <Tooltip>
-                                        <TooltipTrigger disabled={true} className="disabled:opacity-50">
-                                            <div className="inside-button inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none">
-                                                <Image src="/assets/images/apple_logo.webp" alt="App store logo"
-                                                       width={24} height={24}/>
-                                                App Store
-                                            </div>
+                                        <TooltipTrigger disabled={true} className="disabled:opacity-50 w-full">
+                                            <span
+                                                className="inside-button inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none">
+                                                    <Image src="/assets/images/gp.webp" alt="App store logo"
+                                                           width={24} height={24}/>
+                                                    Google Play
+                                            </span>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Скоро буде</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger disabled={true} className="disabled:opacity-50 w-full">
+                                                <span
+                                                    className="inside-button inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none">
+                                                    <Image src="/assets/images/apple_logo.webp" alt="App store logo"
+                                                           width={24} height={24}/>
+                                                    App Store
+                                                </span>
                                         </TooltipTrigger>
                                         <TooltipContent>
                                             <p>Скоро буде</p>
@@ -112,13 +139,7 @@ export default function HomePage() {
                                 </TooltipProvider>
 
                             </div>
-                            <Link
-                                href="/login"
-                                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 w-full sm:w-auto"
-                                prefetch={false}
-                            >
-                                Увійти через браузер
-                            </Link>
+
                         </div>
                     </div>
                 </section>
@@ -133,13 +154,14 @@ export default function HomePage() {
                                     найкращого життя.
                                 </p>
                             </div>
-                            <SubscribeForm />
+                            <SubscribeForm/>
                             <div className="flex justify-center gap-4">
-                                { Object.entries(header.networks).map(([key, value]) => (
-                                    <Link key={key} href={value.url} className="text-muted-foreground hover:text-primary" prefetch={false}>
+                                {Object.entries(header.networks).map(([key, value]) => (
+                                    <Link key={key} href={value.url}
+                                          className="text-muted-foreground hover:text-primary" prefetch={false}>
                                         <value.Icon className="h-6 w-6"/>
                                     </Link>
-                                )) }
+                                ))}
                             </div>
                         </div>
                     </div>
