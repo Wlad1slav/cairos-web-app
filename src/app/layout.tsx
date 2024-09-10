@@ -8,10 +8,15 @@ import {landingMetadata} from "@/config/landing.config";
 
 export const metadata: Metadata = {
     ...landingMetadata,
-    // openGraph: {
-    //     ...landingMetadata,
-    //     images: '/assets/images/landing_image.webp',
-    // }
+    manifest: '/manifest.json',
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "default",
+        title: landingMetadata.title
+    },
+    formatDetection: {
+        telephone: false
+    }
 };
 
 export default function RootLayout({
