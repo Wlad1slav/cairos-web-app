@@ -21,3 +21,9 @@ export type TChartData = {
 export type TSubscriber = {
     email: string;
 };
+
+export type TUser = {
+    email: string;
+    name: string;
+    image: string;
+};

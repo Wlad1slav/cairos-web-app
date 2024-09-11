@@ -8,6 +8,10 @@ import {Button} from "@/components/ui/button"
 import SignInWithGoogle from "@/components/buttons/signInGoogle";
 import {useSession} from "next-auth/react";
 import {redirect} from "next/navigation";
+import React from "react";
+import RegisterForm from "@/components/auth/register-form";
+import LoginForm from "@/components/auth/login-form";
+
 
 export default function LoginPage() {
 
@@ -15,10 +19,6 @@ export default function LoginPage() {
 
     if (session) {
         redirect("/profile");
-    }
-
-    async function onSubmit(event: React.SyntheticEvent) {
-        event.preventDefault();
     }
 
     return (
@@ -37,18 +37,8 @@ export default function LoginPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <div className="space-y-1">
-                                <Label htmlFor="signin-email">Email</Label>
-                                <Input id="signin-email" type="email" placeholder="m@example.com"/>
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="signin-password">Пароль</Label>
-                                <Input id="signin-password" type="password"/>
-                            </div>
+                            <LoginForm />
                         </CardContent>
-                        <CardFooter>
-                            <Button className="w-full">Увійти</Button>
-                        </CardFooter>
                     </Card>
                 </TabsContent>
                 <TabsContent value="register">
@@ -59,27 +49,9 @@ export default function LoginPage() {
                                 Створіть новий обліковий запис, заповнивши форму нижче.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-2">
-                            <div className="space-y-1">
-                                <Label htmlFor="register-email">Email</Label>
-                                <Input id="register-email" type="email" placeholder="m@example.com"/>
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="register-name">Ім&apos;я</Label>
-                                <Input id="register-name" placeholder="Іван Мельник"/>
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="register-password">Пароль</Label>
-                                <Input id="register-password" type="password"/>
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="register-confirm-password">Підтвердьте пароль</Label>
-                                <Input id="register-confirm-password" type="password"/>
-                            </div>
+                        <CardContent>
+                            <RegisterForm />
                         </CardContent>
-                        <CardFooter>
-                            <Button className="w-full">Зареєструватися</Button>
-                        </CardFooter>
                     </Card>
                 </TabsContent>
                 <div className="mt-4">
