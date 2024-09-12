@@ -4,6 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import {compare} from 'bcryptjs';
 import User from "@/lib/models/user.schema";
 
+export const maxAccountsAmount = 3;
+
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',

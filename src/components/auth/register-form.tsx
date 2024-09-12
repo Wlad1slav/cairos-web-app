@@ -11,6 +11,7 @@ import axios from "axios";
 import {Loader2} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {signIn} from "next-auth/react";
+import {statusMessages} from "@/lib/messages/status";
 
 const formSchema = z.object({
     name: z.string().min(2, validationMin(2, 'Ім\'я')).max(255, validationMax(255, 'Ім\'я')),
@@ -51,8 +52,7 @@ function RegisterForm() {
                 <Alert variant="destructive" className="mb-4">
                     <AlertTitle>Помилка авторизації!</AlertTitle>
                     <AlertDescription>
-                        {errorStatus === 400 && 'Будь ласка, заповніть всі поля.'}
-                        {errorStatus === 422 && 'Користувач з такою поштою вже існує.'}
+                        {errorStatus in statusMessages ? statusMessages[errorStatus as keyof typeof statusMessages] : statusMessages[500]}
                     </AlertDescription>
                 </Alert>
             )}
