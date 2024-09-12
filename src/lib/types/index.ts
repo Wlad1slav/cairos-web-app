@@ -26,4 +26,5 @@ export type TUser = {
     email: string;
     name: string;
     image: string;
+    ip: string;
 };

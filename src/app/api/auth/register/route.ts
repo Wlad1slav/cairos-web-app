@@ -19,10 +19,13 @@ export async function POST(req: NextRequest) {
 
     const hashedPassword = await hash(password, 12);
 
+    const ip = req.headers.get('x-forwarded-for') || req.ip || 'Unknown';
+
     const newUser = new User({
         email,
         name,
         password: hashedPassword,
+        ip
     });
 
     await newUser.save();

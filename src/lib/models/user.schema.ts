@@ -15,6 +15,10 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    ip: {
+        type: String,
+        required: false,
+    }
 });
 
 export const User = mongoose.models.User || mongoose.model<TUser>('User', UserSchema);
