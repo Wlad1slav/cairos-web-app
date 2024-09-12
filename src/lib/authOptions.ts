@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
                     const isValidPassword = await compare(credentials.password, user.password);
 
                     if (isValidPassword) {
-                        return {id: user._id, email: user.email, name: user.name};
+                        return {id: user._id, email: user.email, name: user.name, image: user.image};
                     }
                 }
 
@@ -55,8 +55,13 @@ export const authOptions: NextAuthOptions = {
         },
         async session({session, token}) {
             if (session && session.user) {
+                const user = await User.findOne({email: token.email});
+
                 session.user.email = token.email;
                 session.user.name = token.name;
+                if (user && user.image) {
+                    session.user.image = user.image
+                }
             }
             return session;
         },

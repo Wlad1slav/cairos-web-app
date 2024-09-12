@@ -3,6 +3,7 @@ import { hash } from 'bcryptjs';
 import User from "@/lib/models/user.schema";
 import {Profile} from "@/lib/models";
 import {maxAccountsAmount} from "@/lib/authOptions";
+import {avatars} from "@/lib/constants";
 
 /**
  * Handles the POST request to register a new user.
@@ -12,7 +13,7 @@ import {maxAccountsAmount} from "@/lib/authOptions";
  */
 export async function POST(req: NextRequest) {
 
-    const { email, name, password } = await req.json();
+    const { email, name, password, avatar } = await req.json();
 
     if (!email || !name || !password) {
         return NextResponse.json({ message: 'Missing fields' }, { status: 400 });
@@ -36,12 +37,15 @@ export async function POST(req: NextRequest) {
         }
     }
 
+    const avatarSrc = avatars.find(value => value.id === avatar)
+
     try {
         const newUser = new User({
             email,
             name,
             password: hashedPassword,
-            ip
+            ip,
+            image: avatarSrc?.src
         });
 
         await newUser.save();

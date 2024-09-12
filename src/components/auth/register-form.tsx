@@ -2,7 +2,7 @@ import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
@@ -12,6 +12,9 @@ import {Loader2} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {signIn} from "next-auth/react";
 import {statusMessages} from "@/lib/messages/status";
+import SelectAvatar from "@/components/auth/SelectAvatar";
+import Image from "next/image";
+import {avatars} from "@/lib/constants";
 
 const formSchema = z.object({
     name: z.string().min(2, validationMin(2, 'Ім\'я')).max(255, validationMax(255, 'Ім\'я')),
@@ -37,10 +40,21 @@ function RegisterForm() {
 
     const [submitting, setSubmitting] = useState(false);
     const [errorStatus, setErrorStatus] = useState<number | undefined>();
+    const [avatar, setAvatar] = useState<string>();
+    const [currentAvatarSrc, setCurrentAvatarSrc] = useState<string>();
+
+    useEffect(() => {
+        if (avatar) {
+            const currentAvatar = avatars.find(value => value.id === avatar);
+            if (currentAvatar) {
+                setCurrentAvatarSrc(currentAvatar.src)
+            }
+        }
+    }, [avatar]);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setSubmitting(true);
-        axios.post('/api/auth/register', values)
+        axios.post('/api/auth/register', {...values, avatar})
             .then(() => signIn('credentials', values))
             .catch(err => setErrorStatus(err.status))
             .finally(() => setSubmitting(false));
@@ -132,6 +146,18 @@ function RegisterForm() {
                         )}
                     />
                 </div>
+
+                <SelectAvatar stateAction={setAvatar} />
+
+                {currentAvatarSrc && (
+                    <Image
+                        src={currentAvatarSrc}
+                        alt="avatar"
+                        width={100}
+                        height={100}
+                        className="w-full"
+                    />
+                )}
 
                 <Button type="submit" className="w-full" disabled={submitting}>
                     <span className="inside-button">

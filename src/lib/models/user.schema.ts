@@ -18,7 +18,11 @@ const UserSchema = new Schema({
     ip: {
         type: String,
         required: false,
-    }
+    },
+    image: {
+        type: String,
+        required: false,
+    },
 });
 
 export const User = mongoose.models.User || mongoose.model<TUser>('User', UserSchema);
