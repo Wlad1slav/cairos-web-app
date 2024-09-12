@@ -4,7 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import {compare} from 'bcryptjs';
 import User from "@/lib/models/user.schema";
 
-
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
@@ -31,7 +30,7 @@ export const authOptions: NextAuthOptions = {
                     const isValidPassword = await compare(credentials.password, user.password);
 
                     if (isValidPassword) {
-                        return {id: new Date().getTime().toString(), email: user.email, name: user.name};
+                        return {id: user._id, email: user.email, name: user.name};
                     }
                 }
 
