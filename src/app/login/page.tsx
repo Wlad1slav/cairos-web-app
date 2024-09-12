@@ -1,16 +1,14 @@
 'use client'
 
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
-import {Input} from "@/components/ui/input"
-import {Label} from "@/components/ui/label"
-import {Button} from "@/components/ui/button"
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
 import SignInWithGoogle from "@/components/buttons/signInGoogle";
 import {useSession} from "next-auth/react";
 import {redirect} from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 import RegisterForm from "@/components/auth/register-form";
 import LoginForm from "@/components/auth/login-form";
+
 
 
 export default function LoginPage() {
@@ -37,7 +35,9 @@ export default function LoginPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <LoginForm />
+                            <Suspense>
+                                <LoginForm/>
+                            </Suspense>
                         </CardContent>
                     </Card>
                 </TabsContent>
@@ -50,7 +50,7 @@ export default function LoginPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <RegisterForm />
+                            <RegisterForm/>
                         </CardContent>
                     </Card>
                 </TabsContent>
