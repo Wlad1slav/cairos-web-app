@@ -8,8 +8,7 @@ import {redirect} from "next/navigation";
 import React, { Suspense } from "react";
 import RegisterForm from "@/components/auth/register-form";
 import LoginForm from "@/components/auth/login-form";
-
-
+import './style.css';
 
 export default function LoginPage() {
 
@@ -20,7 +19,7 @@ export default function LoginPage() {
     }
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center w-full">
+        <main className="min-h-screen flex justify-center">
             <Tabs defaultValue="signin" className="w-[400px]">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="signin">Увійти</TabsTrigger>
