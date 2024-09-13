@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import {Button} from "@/components/ui/button";
+import {Download} from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
     prompt: () => Promise<void>;
@@ -30,11 +31,6 @@ export default function InstallPWAButton() {
         if (!deferredPrompt) return;
         deferredPrompt.prompt(); // Shows the installation dialog
         const choiceResult = await deferredPrompt.userChoice; // Waiting for user response
-        if (choiceResult.outcome === 'accepted') {
-            console.log('Користувач прийняв встановлення PWA');
-        } else {
-            console.log('Користувач відхилив встановлення PWA');
-        }
         // Clears the saved event
         setDeferredPrompt(null);
         setIsInstallable(false);
@@ -43,7 +39,10 @@ export default function InstallPWAButton() {
     return (
         <>
             <Button onClick={handleInstallClick} className="w-100" disabled={!isInstallable}>
-                Встановити додаток
+                <span className="flex items-center justify-between w-full px-4">
+                    <Download fill="white" width={24} height={24} />
+                    <span className="flex-1">Встановити додаток</span>
+                </span>
             </Button>
         </>
     );

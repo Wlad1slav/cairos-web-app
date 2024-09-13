@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Image from "next/image";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,} from "@/components/ui/tooltip"
-import {HeartPulseIcon, HourglassIcon, SmileIcon} from "lucide-react";
+import {Chrome, HeartPulseIcon, HourglassIcon, SmileIcon} from "lucide-react";
 import {header} from "@/config/landing.config";
 import SubscribeForm from "@/components/landing/subscribe-form";
 import InstallPWAButton from "@/components/buttons/install-pwa";
@@ -89,10 +89,37 @@ export default function HomePage() {
 
                             <div className="flex flex-col gap-2 justify-center">
                                 <InstallPWAButton/>
+                                <Link href="/mobile/android/Каірос.apk" className="w-full">
+                                    <span
+                                        className="flex items-center h-10 rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none"
+                                    >
+                                        <Image
+                                            src="/assets/images/android_841.webp"
+                                            alt="Andorid logo"
+                                            width={24} height={24}
+                                        />
+                                        <span className="flex-1">Завантажити для Android</span>
+                                    </span>
+                                </Link>
+                                {/*<Link href="/mobile/android/Каірос.apk" className="w-full sm:opacity-50 sm:cursor-auto">*/}
+                                {/*    <span*/}
+                                {/*        className="flex items-center h-10 rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none"*/}
+                                {/*    >*/}
+                                {/*        <Image*/}
+                                {/*            src="/assets/images/apple_logo.webp"*/}
+                                {/*            alt="IOS logo"*/}
+                                {/*            width={24} height={24}*/}
+                                {/*        />*/}
+                                {/*        <span className="flex-1">Завантажити для IOS</span>*/}
+                                {/*    </span>*/}
+                                {/*</Link>*/}
                                 <Link href="/login" className="w-full">
-                                    <Button variant="outline" className="w-full">
-                                        Увійти через браузер
-                                    </Button>
+                                    <span
+                                        className="flex items-center h-10 rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none"
+                                    >
+                                        <Chrome color="white" fill="#496993" />
+                                        <span className="flex-1">Увійти через браузер</span>
+                                    </span>
                                 </Link>
                             </div>
                             <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
@@ -127,7 +154,7 @@ export default function HomePage() {
                                         <TooltipTrigger disabled={true} className="disabled:opacity-50 w-full">
                                                 <span
                                                     className="inside-button inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none">
-                                                    <Image src="/assets/images/apple_logo.webp" alt="App store logo"
+                                                    <Image src="/assets/images/app_store.webp" alt="App store logo"
                                                            width={24} height={24}/>
                                                     App Store
                                                 </span>

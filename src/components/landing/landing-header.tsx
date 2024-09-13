@@ -30,7 +30,11 @@ function LandingHeader() {
                             Увійти
                         </Button>
                     </Link>
-                    <InstallPWAButton />
+                    <Link href="#getStart" prefetch={false}>
+                        <Button>
+                            Завантажити
+                        </Button>
+                    </Link>
                 </div>
             </nav>
             <div className="sm:hidden flex w-full justify-end">
@@ -56,7 +60,11 @@ function LandingHeader() {
                                     Увійти
                                 </Button>
                             </Link>
-                            <InstallPWAButton />
+                            <Link href="#getStart" prefetch={false}>
+                                <Button className="w-full">
+                                    Завантажити
+                                </Button>
+                            </Link>
                         </SheetHeader>
                     </SheetContent>
                 </Sheet>
