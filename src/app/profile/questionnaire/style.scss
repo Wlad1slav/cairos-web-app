@@ -1,12 +1,12 @@
 @import "@/styles/mixins";
 
 main {
-  height: 100vh;
-  width: 100vw;
+  padding-block: 15px;
+  display: flex;
+  justify-content: center;
 }
 
 .questionnaire-container {
-  @include centralized-x-container();
   width: 600px;
 
   padding: 20px;
