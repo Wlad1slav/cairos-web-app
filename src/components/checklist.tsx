@@ -36,7 +36,7 @@ const Checklist: React.FC<ChecklistProps> = ({ items, name, control }) => {
                                             />
                                         </FormControl>
                                         <FormLabel className="font-normal">
-                                            {item.label}
+                                            <p className="mb-1.5">{item.label}</p>
                                             <p className="text-sm text-muted-foreground">
                                                 {item.description}
                                             </p>
